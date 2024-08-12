@@ -23,7 +23,7 @@
             const avatar = document.getElementById('avatar').value;
             const comment = document.getElementById('comment').value;
 
-            await fetch('https://your-worker-domain/comments', {
+            await fetch('https://pinglun.laotuger.workers.dev', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ nickname, avatar, comment }),
@@ -35,7 +35,7 @@
 
         // 加载评论的函数
         async function loadComments() {
-            const response = await fetch('https://your-worker-domain/comments');
+            const response = await fetch('https://pinglun.laotuger.workers.dev');
             const comments = await response.json();
 
             const commentsDiv = document.getElementById('comments');
