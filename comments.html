@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>评论系统</title>
+</head>
+<body>
+  <h1>评论系统</h1>
+  <form id="comment-form">
+    <textarea id="comment-text" rows="4" cols="50" placeholder="输入你的评论..."></textarea><br>
+    <button type="submit">提交评论</button>
+  </form>
+  <h2>评论</h2>
+  <div id="comments"></div>
+
+  <script>
+    document.getElementById('comment-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const text = document.getElementById('comment-text').value;
+      if (text.trim()) {
+        await fetch('/comments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text })
+        });
+        document.getElementById('comment-text').value = '';
+        loadComments();
+      }
+    });
+
+    async function loadComments() {
+      const response = await fetch('/comments');
+      const comments = await response.json();
+      const commentsDiv = document.getElementById('comments');
+      commentsDiv.innerHTML = comments.map(c => `<p>${c.text} <small>(${c.timestamp})</small></p>`).join('');
+    }
+
+    loadComments();
+  </script>
+</body>
+</html>
